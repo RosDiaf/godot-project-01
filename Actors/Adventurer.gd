@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-@export var MAX_SPEED = 450
-@export var ACCELERATION = 900
-@export var FRICTION = 1200
+@export var MAX_SPEED = 500
+@export var ACCELERATION = 400
+@export var FRICTION = 350
 @export var axis = Vector2.ZERO
 @export var GRAVITY = 2500
 @export var LANDING_ACCELERATION = 300
@@ -15,6 +15,7 @@ extends CharacterBody2D
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var remoteTransform2D: = $RemoteTransform2D
 @onready var advJumpBufferTimer: = $Timer
+@onready var coyoteTimer: = $CoyoteTimer
 
 var double_jump = 1
 var buffered_jump = false
@@ -28,25 +29,25 @@ func _ready():
 
 func _physics_process(delta):
 	# apply_gravity(delta)
-	# move(delta)
-	
-	# Movement refactored
-	axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	set_animation_type(false)
-	if axis.x == 0:
-		velocity.x = lerp(velocity.x, 0.0, FRICTION)
-	velocity.y += GRAVITY * delta
-	get_input()
-	move_and_slide()
-	# -----------------------------
+	move(delta)
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	axis.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	set_animation_type(false)	
 	return axis.normalized()
-	
+
+func move(delta):
+	axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	set_animation_type(false)
+#	if axis.x == 0:
+#		velocity.x = lerp(velocity.x, 0.0, FRICTION)
+#		apply_friction(delta)
+	velocity.y += GRAVITY * delta
+	get_input(delta)
+	move_and_slide()
+
 #func move(delta):
 #	axis = get_input_axis()
 #	if axis == Vector2.ZERO:
@@ -66,11 +67,11 @@ func get_input_axis():
 #	move_and_slide()
 #	apply_clamp(delta)
 			
-#func apply_friction(delta):
-#	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-#
-#func apply_acceleration(amount,delta):
-#	velocity.x = move_toward(velocity.x, MAX_SPEED * amount, ACCELERATION * delta)
+func apply_friction(delta):
+	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+
+func apply_acceleration(amount,delta):
+	velocity.x = move_toward(velocity.x, MAX_SPEED * amount, ACCELERATION * delta)
 
 func set_animation_type(jump):
 	if axis.x > 0:
@@ -93,7 +94,7 @@ func set_animation_type(jump):
 #	velocity.y += GRAVITY * delta
 #	velocity.y = min(velocity.y, LANDING_ACCELERATION)
 
-func get_input():
+func get_input(delta):
 	velocity.x = 0
 	var right = Input.is_action_pressed('move_right')
 	var left = Input.is_action_pressed('move_left')
@@ -110,18 +111,20 @@ func get_input():
 		reset_double_jump()
 	if !is_on_floor():
 		apply_double_jump()
-#	if is_on_floor() and jump:
-#		velocity.y = JUMP_FORCE
 	if right:
 		velocity.x += MAX_SPEED
+		# velocity.x = min(velocity.x + ACCELERATION, MAX_SPEED)
+		# apply_acceleration(axis.x, delta)
+		print(velocity.x)
 	if left:
 		velocity.x -= MAX_SPEED
+		# velocity.x = max(velocity.x - ACCELERATION, -MAX_SPEED)
+		# apply_acceleration(axis.x, delta)
+		print(velocity.x)
 		
-	print(can_jump)
 		
 func coyote_time():
-	advJumpBufferTimer.start()
-	can_jump = false
+	coyoteTimer.start()
 
 func apply_jump(delta):
 	if is_on_floor() and Input.is_action_just_pressed("ui_select") or buffered_jump:
@@ -149,7 +152,7 @@ func _on_visible_on_screen_enabler_2d_screen_exited():
 	print("Exit Screen!")
 
 func _on_adv_jump_buffer_timer_timeout():
-	print(buffered_jump)
-	print(advJumpBufferTimer.wait_time)
 	buffered_jump = false
-	print(buffered_jump)
+	
+func _on_coyote_timer_timeout():
+	can_jump = false

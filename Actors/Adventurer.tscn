@@ -237,5 +237,9 @@ explosiveness = 1.0
 wait_time = 0.1
 one_shot = true
 
+[node name="CoyoteTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="screen_exited" from="Sprite2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_adv_jump_buffer_timer_timeout"]
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
