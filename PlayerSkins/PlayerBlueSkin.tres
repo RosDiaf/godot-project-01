@@ -1,0 +1,49 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://dmq0dn7wyxbe7"]
+
+[ext_resource type="Texture2D" uid="uid://b81qpnf21ufq4" path="res://assets/kenney_pixelplatformer/Tilemap/characters_packed.png" id="1_4qb0x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81o4l"]
+atlas = ExtResource("1_4qb0x")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkh1s"]
+atlas = ExtResource("1_4qb0x")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xt4b3"]
+atlas = ExtResource("1_4qb0x")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6337s"]
+atlas = ExtResource("1_4qb0x")
+region = Rect2(48, 0, 24, 24)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81o4l")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkh1s")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xt4b3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6337s")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}]

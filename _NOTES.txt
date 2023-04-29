@@ -1,0 +1,33 @@
+godot-demo-projects
+https://github.com/godotengine/godot-demo-projects/blob/master/2d/platformer/enemy/enemy.gd
+
+Using CharacterBody2D/3D
+https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html
+
+2D sprite animation
+https://docs.godotengine.org/en/stable/tutorials/2d/2d_sprite_animation.html
+
+Physics introduction
+https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html
+
+
+ASSETS
+Cartoon explosion animation frames
+https://www.freepik.com/free-vector/cartoon-explosion-animation-frames_14140643.htm#query=sprite%20sheets&position=5&from_view=search&track=ais
+
+How to Use Sprite Sheets to Improve 2D Games
+https://www.nightquestgames.com/how-to-use-sprite-sheets-to-improve-2d-games/
+
+
+
+GODOT NODES 101: VISIBILITYNOTIFIER AND VISIBILITYENABLER 2D
+https://www.gdquest.com/tutorial/godot/2d/visibility-notifier-2d/
+
+How to Check If a Timer is Running in Godot: A Comprehensive Guide
+https://copyprogramming.com/howto/how-to-check-if-a-timer-is-running-in-godot-a-comprehensive-guide
+
+Jump Input Buffering
+http://kpulv.com/106/Jump_Input_Buffering/
+
+LEARN KRITA FROM ZERO
+https://www.gdquest.com/tutorial/krita/legacy/krita-from-zero/chapter-1/06-pureref/

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck3k340ttjolb"]
+
+[ext_resource type="Texture2D" uid="uid://cxsnkje14xwmk" path="res://assets/kenney_pixelplatformer/Tilemap/tiles.png" id="1_cawik"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vw2sp"]
+size = Vector2(18, 18)
+
+[node name="Block" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vw2sp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_cawik")
+region_enabled = true
+region_rect = Rect2(139.59, 39.5938, 18.9183, 18.5129)

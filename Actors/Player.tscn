@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2b2y8i571c07"]
+
+[ext_resource type="Script" path="res://Actors/Player.gd" id="1_u8dmx"]
+[ext_resource type="SpriteFrames" uid="uid://qm68ex2brym2" path="res://PlayerSkins/PlayerGreenSkin.tres" id="2_bfcik"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l4eq4"]
+size = Vector2(10, 18)
+
+[sub_resource type="Gradient" id="Gradient_4sa6v"]
+offsets = PackedFloat32Array(0, 0.997429)
+colors = PackedColorArray(1, 1, 1, 0.392157, 1, 1, 1, 0.0588235)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vfovc"]
+gradient = SubResource("Gradient_4sa6v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2mmyx"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(9, 2, 0)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 2, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 4.0
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_vfovc")
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 2
+script = ExtResource("1_u8dmx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_bfcik")
+animation = &"Run"
+frame_progress = 0.0228058
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_l4eq4")
+
+[node name="LadderCheck" type="RayCast2D" parent="."]
+position = Vector2(0, -3)
+target_position = Vector2(0, 21)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_2mmyx")
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+
+[connection signal="timeout" from="JumpBufferTimer" to="." method="_on_jump_buffer_timer_timeout"]

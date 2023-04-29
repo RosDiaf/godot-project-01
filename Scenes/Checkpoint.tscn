@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://blbonvyc0t2b1"]
+
+[ext_resource type="Texture2D" uid="uid://ct8ullpegmeq7" path="res://assets/kenney_pixelplatformer/Tilemap/tiles_packed.png" id="1_ej7bw"]
+[ext_resource type="Script" path="res://Scenes/Checkpoint.gd" id="1_fnte1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfsd0"]
+atlas = ExtResource("1_ej7bw")
+region = Rect2(198, 90, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blaun"]
+atlas = ExtResource("1_ej7bw")
+region = Rect2(216, 90, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olqeu"]
+atlas = ExtResource("1_ej7bw")
+region = Rect2(198, 108, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2adok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfsd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blaun")
+}],
+"loop": true,
+"name": &"checked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olqeu")
+}],
+"loop": true,
+"name": &"unchecked",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e67xq"]
+size = Vector2(18, 19)
+
+[node name="Checkpoint" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_fnte1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -0.5)
+scale = Vector2(1, 1.05556)
+sprite_frames = SubResource("SpriteFrames_2adok")
+animation = &"unchecked"
+autoplay = "unchecked"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_e67xq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

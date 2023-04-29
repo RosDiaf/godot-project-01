@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh26bxoc2235d"]
+
+[ext_resource type="Texture2D" uid="uid://ct8ullpegmeq7" path="res://assets/kenney_pixelplatformer/Tilemap/tiles_packed.png" id="1_d56oa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w88ou"]
+size = Vector2(67.5, 22.5)
+
+[node name="TileGround" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.78814e-07, -4.76837e-07)
+scale = Vector2(1.08, 1.28571)
+texture = ExtResource("1_d56oa")
+region_enabled = true
+region_rect = Rect2(19.7923, 1.93534, 50.1806, 14.029)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9.53674e-07, -3.57628e-07)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("RectangleShape2D_w88ou")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)

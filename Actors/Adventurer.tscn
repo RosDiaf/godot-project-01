@@ -1,0 +1,241 @@
+[gd_scene load_steps=29 format=3 uid="uid://kqw2yyy0oe1y"]
+
+[ext_resource type="Texture2D" uid="uid://ddqiicr3plcuj" path="res://assets/level01/adventurer-v1.5-Sheet.png" id="1_t2kmx"]
+[ext_resource type="Script" path="res://Actors/Adventurer.gd" id="2_llhj0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xsiwv"]
+size = Vector2(20, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlbun"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(150, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_juxpm"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(200, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vweko"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(250, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wo0x"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(300, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vg41"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(0, 111, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88q18"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(50, 111, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo84y"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(100, 111, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei60j"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(0, 0, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qq1yp"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(50, 0, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5lwhp"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(100, 0, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ke6d"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(150, 0, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5ie6"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(0, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lk44t"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(50, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhatp"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(100, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3aya8"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(150, 74, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnt2p"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(50, 37, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1m47q"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(100, 37, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4j0g"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(150, 37, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bubey"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(200, 37, 50, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40ds3"]
+atlas = ExtResource("1_t2kmx")
+region = Rect2(250, 37, 50, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2p6w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vlbun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_juxpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vweko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wo0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vg41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88q18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo84y")
+}],
+"loop": true,
+"name": &"Double_Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ei60j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qq1yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5lwhp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ke6d")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5ie6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lk44t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhatp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3aya8")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnt2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1m47q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4j0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bubey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40ds3")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_gqmth"]
+script/source = "extends AnimatedSprite2D
+class_name Adventurer
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="Gradient" id="Gradient_sncvj"]
+offsets = PackedFloat32Array(0, 0.997429)
+colors = PackedColorArray(1, 1, 1, 0.392157, 1, 1, 1, 0.0588235)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cjkaj"]
+gradient = SubResource("Gradient_sncvj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wquc6"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(9, 2, 0)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 2, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 4.0
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_cjkaj")
+
+[node name="Adventurer" type="CharacterBody2D"]
+script = ExtResource("2_llhj0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 2.5)
+shape = SubResource("RectangleShape2D_xsiwv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l2p6w")
+animation = &"Jump"
+autoplay = "Run"
+script = SubResource("GDScript_gqmth")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_wquc6")
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="screen_exited" from="Sprite2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_adv_jump_buffer_timer_timeout"]

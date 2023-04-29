@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlayerMovementData" load_steps=2 format=3 uid="uid://bqrt24upvws01"]
+
+[ext_resource type="Script" path="res://Resources/PlayerMovementData.gd" id="1_jhtcy"]
+
+[resource]
+script = ExtResource("1_jhtcy")
+JUMP_FORCE = -160
+JUMP_RELEASE_FORCE = -70
+MAX_SPEED = 100
+FRICTION = 900
+ACCELERATION = 900
+LANDING_ACCELERATION = 300
+GRAVITY = 420
+ADDITIONAL_FALL_GRAVITY = 180
+CLIMB_SPEED = 50
+DOUBLE_JUMP_COUNT = 1

@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://g6toye7idik6"]
+
+[ext_resource type="Texture2D" uid="uid://b81qpnf21ufq4" path="res://assets/kenney_pixelplatformer/Tilemap/characters_packed.png" id="1_7qao1"]
+[ext_resource type="Script" path="res://Actors/WalkingEnemy.gd" id="1_mvn2x"]
+[ext_resource type="PackedScene" uid="uid://cksnjal6mqq88" path="res://Scenes/Hitbox.tscn" id="3_52pid"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxto2"]
+atlas = ExtResource("1_7qao1")
+region = Rect2(144, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56une"]
+atlas = ExtResource("1_7qao1")
+region = Rect2(168, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2gni0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxto2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56une")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7iim2"]
+size = Vector2(12, 13.5)
+
+[node name="WalkingEnemy" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_mvn2x")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_2gni0")
+animation = &"Walking"
+frame = 1
+frame_progress = 0.88834
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -6.75)
+shape = SubResource("RectangleShape2D_7iim2")
+
+[node name="LedgeCheckRight" type="RayCast2D" parent="."]
+visible = false
+position = Vector2(5, -1)
+target_position = Vector2(0, 6)
+
+[node name="LedgeCheckLeft" type="RayCast2D" parent="."]
+visible = false
+position = Vector2(-5, -1)
+target_position = Vector2(0, 6)
+
+[node name="Hitbox" parent="." instance=ExtResource("3_52pid")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(-8, -2, -8, -10, -5, -13, -2, -12, -2, -15, -1, -15, -1, -17, 0, -17, 0, -15, 1, -15, 1, -12, 4, -13, 7, -10, 7, -2)
