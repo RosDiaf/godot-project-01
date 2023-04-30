@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var axis = Vector2.ZERO
 @export var MAX_SPEED = 550
 @export var ACCELERATION = 1500
-@export var FRICTION = 1400
+@export var FRICTION = 1450
 @export var GRAVITY = 3000
 @export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
@@ -36,8 +36,8 @@ func get_input_axis():
 	return axis.normalized()
 
 func move(delta):
-	axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	# axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	# axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	set_animation_type(false)
 
 	axis = get_input_axis()
@@ -74,6 +74,9 @@ func move(delta):
 			
 func apply_friction(delta):
 	velocity -= velocity.normalized() * (FRICTION * delta)
+	if velocity.x > 0.0 and velocity.x < 10.0:
+		velocity = Vector2.ZERO
+	print(velocity.x)
 
 func apply_acceleration(delta):
 	velocity += (axis * ACCELERATION * delta)
