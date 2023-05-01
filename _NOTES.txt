@@ -34,3 +34,6 @@ https://www.gdquest.com/tutorial/krita/legacy/krita-from-zero/chapter-1/06-purer
 
 LEARN PLATFORMER TOOLKIT
 https://gmtk.itch.io/platformer-toolkit
+
+LEARN Beginners Guide to Godot
+https://godottutorials.com/courses/godot-basics-series/
