@@ -1,13 +1,12 @@
 extends CharacterBody2D
 
-@export var MAX_SPEED = 500
-@export var ACCELERATION = 400
-@export var FRICTION = 350
 @export var axis = Vector2.ZERO
-@export var GRAVITY = 2500
-@export var LANDING_ACCELERATION = 300
+@export var MAX_SPEED = 550
+@export var ACCELERATION = 1500
+@export var FRICTION = 1400
+@export var GRAVITY = 3000
+@export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
-@onready var JUMP_IMPULSE = -1900
 @onready var JUMP_RELEASE_FORCE = -170
 @onready var ADDITIONAL_FALL_GRAVITY = 240
 @onready var DOUBLE_JUMP_COUNT = 1
@@ -20,7 +19,6 @@ extends CharacterBody2D
 var double_jump = 1
 var buffered_jump = false
 var screensize
-	
 var can_jump = true
 
 func _ready():
@@ -41,12 +39,19 @@ func move(delta):
 	axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	set_animation_type(false)
-#	if axis.x == 0:
-#		velocity.x = lerp(velocity.x, 0.0, FRICTION)
-#		apply_friction(delta)
-	velocity.y += GRAVITY * delta
+
+	axis = get_input_axis()
+	if axis == Vector2.ZERO:
+		if velocity.length() > (FRICTION * delta):
+			apply_friction(delta)
+	else:
+		apply_acceleration(delta)
+	
+	# velocity.y += GRAVITY * delta
+	apply_gravity(delta)
 	get_input(delta)
 	move_and_slide()
+	
 
 #func move(delta):
 #	axis = get_input_axis()
@@ -68,10 +73,11 @@ func move(delta):
 #	apply_clamp(delta)
 			
 func apply_friction(delta):
-	velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
+	velocity -= velocity.normalized() * (FRICTION * delta)
 
-func apply_acceleration(amount,delta):
-	velocity.x = move_toward(velocity.x, MAX_SPEED * amount, ACCELERATION * delta)
+func apply_acceleration(delta):
+	velocity += (axis * ACCELERATION * delta)
+	velocity = velocity.limit_length(MAX_SPEED)
 
 func set_animation_type(jump):
 	if axis.x > 0:
@@ -90,12 +96,12 @@ func set_animation_type(jump):
 		print(axis.x)
 		animatedSprite.animation = "Double_Jump"
 	
-#func apply_gravity(delta):
-#	velocity.y += GRAVITY * delta
-#	velocity.y = min(velocity.y, LANDING_ACCELERATION)
+func apply_gravity(delta):
+	velocity.y += GRAVITY * delta
+	velocity.y = min(velocity.y, LANDING_ACCELERATION)
 
 func get_input(delta):
-	velocity.x = 0
+	# velocity.x = 0
 	var right = Input.is_action_pressed('move_right')
 	var left = Input.is_action_pressed('move_left')
 	var jump = Input.is_action_just_pressed('ui_select')
@@ -106,31 +112,26 @@ func get_input(delta):
 		coyote_time()
 	
 	if jump and can_jump:
-		velocity.y = JUMP_FORCE
-		can_jump = false
-		reset_double_jump()
+		apply_jump(delta)
 	if !is_on_floor():
 		apply_double_jump()
-	if right:
-		velocity.x += MAX_SPEED
-		# velocity.x = min(velocity.x + ACCELERATION, MAX_SPEED)
-		# apply_acceleration(axis.x, delta)
-		print(velocity.x)
-	if left:
-		velocity.x -= MAX_SPEED
-		# velocity.x = max(velocity.x - ACCELERATION, -MAX_SPEED)
-		# apply_acceleration(axis.x, delta)
-		print(velocity.x)
+#	if right:
+#		velocity.x += MAX_SPEED
+#		print(velocity.x)
+#	if left:
+#		velocity.x -= MAX_SPEED
+#		print(velocity.x)
 		
 		
 func coyote_time():
 	coyoteTimer.start()
 
 func apply_jump(delta):
-	if is_on_floor() and Input.is_action_just_pressed("ui_select") or buffered_jump:
-		velocity.y = JUMP_IMPULSE
-		buffered_jump = true
-		advJumpBufferTimer.start()
+	velocity.y = JUMP_FORCE
+	advJumpBufferTimer.start()	
+	buffered_jump = true
+	can_jump = false
+	reset_double_jump()
 
 func apply_double_jump():
 	if Input.is_action_just_pressed("ui_select") and double_jump > 0:
