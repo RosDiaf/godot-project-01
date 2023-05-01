@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var axis = Vector2.ZERO
 @export var MAX_SPEED = 550
 @export var ACCELERATION = 1500
-@export var FRICTION = 1450
+@export var FRICTION = 1400
 @export var GRAVITY = 3000
 @export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
@@ -13,13 +13,17 @@ extends CharacterBody2D
 
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var remoteTransform2D: = $RemoteTransform2D
-@onready var advJumpBufferTimer: = $Timer
+@onready var advJumpBufferTimer: = $JumpBufferTimer
 @onready var coyoteTimer: = $CoyoteTimer
+@onready var dashTimer: = $DashTimer
 
 var double_jump = 1
 var buffered_jump = false
 var screensize
 var can_jump = true
+var dashDirection = Vector2.ZERO
+var canDash = true
+var dashing = false
 
 func _ready():
 	animatedSprite.animation = "Idle"
@@ -30,9 +34,11 @@ func _physics_process(delta):
 	move(delta)
 
 func get_input_axis():
+	# axis.x = int(Input.is_action_just_pressed("move_right")) - int(Input.is_action_just_pressed("move_left"))
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	axis.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
-	set_animation_type(false)	
+	
+	set_animation_type(false)
 	return axis.normalized()
 
 func move(delta):
@@ -44,12 +50,15 @@ func move(delta):
 	if axis == Vector2.ZERO:
 		if velocity.length() > (FRICTION * delta):
 			apply_friction(delta)
+#	elif Input.is_action_just_pressed("dash"):
+#		dash()
 	else:
 		apply_acceleration(delta)
 	
 	# velocity.y += GRAVITY * delta
 	apply_gravity(delta)
 	get_input(delta)
+	dash()
 	move_and_slide()
 	
 
@@ -74,10 +83,9 @@ func move(delta):
 			
 func apply_friction(delta):
 	velocity -= velocity.normalized() * (FRICTION * delta)
-	if velocity.x > 0.0 and velocity.x < 10.0:
-		velocity = Vector2.ZERO
-	print(velocity.x)
-
+	velocity.x = 0;
+	# axis.x = lerp(axis.x,0,0.1)
+		
 func apply_acceleration(delta):
 	velocity += (axis * ACCELERATION * delta)
 	velocity = velocity.limit_length(MAX_SPEED)
@@ -104,7 +112,6 @@ func apply_gravity(delta):
 	velocity.y = min(velocity.y, LANDING_ACCELERATION)
 
 func get_input(delta):
-	# velocity.x = 0
 	var right = Input.is_action_pressed('move_right')
 	var left = Input.is_action_pressed('move_left')
 	var jump = Input.is_action_just_pressed('ui_select')
@@ -125,7 +132,17 @@ func get_input(delta):
 #		velocity.x -= MAX_SPEED
 #		print(velocity.x)
 		
-		
+
+func dash():
+	if Input.is_action_just_pressed("dash") and canDash:
+		velocity = dashDirection.normalized() * 2000
+		canDash = false
+		dashing = true
+		dashTimer.start()
+		dashing = false
+		canDash = true
+	print("dash")
+
 func coyote_time():
 	coyoteTimer.start()
 
@@ -160,3 +177,6 @@ func _on_adv_jump_buffer_timer_timeout():
 	
 func _on_coyote_timer_timeout():
 	can_jump = false
+
+func _on_dash_timer_timeout():
+	velocity = Vector2(-2000,0)
