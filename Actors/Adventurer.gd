@@ -21,66 +21,94 @@ var double_jump = 1
 var buffered_jump = false
 var screensize
 var can_jump = true
-var dashDirection = Vector2.ZERO
+
+
+#var dashDirection = Vector2.ZERO
+#var canDash = true
+#var dashing = false
+
+var DASH = 800
+var DASH_DISTANCE = 100.0 #must be a float for the division! 
+var dash_direccion = 1
+var dash_time = DASH_DISTANCE/DASH
+var dash_timer = dash_time
+var canWalk = true
 var canDash = true
-var dashing = false
+var inDash = false
+const UP = Vector2(0,-1)
+var movement = Vector2()
+
 
 func _ready():
 	animatedSprite.animation = "Idle"
 	screensize = get_viewport_rect().size
 
 func _physics_process(delta):
-	# apply_gravity(delta)
 	move(delta)
+	# move_b(delta)
 
 func get_input_axis():
-	# axis.x = int(Input.is_action_just_pressed("move_right")) - int(Input.is_action_just_pressed("move_left"))
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
 	axis.y = int(Input.is_action_pressed("move_down")) - int(Input.is_action_pressed("move_up"))
 	
 	set_animation_type(false)
 	return axis.normalized()
 
+
+func move_b(delta):
+	set_animation_type(false)
+	axis = get_input_axis()
+	
+	if inDash:
+		dash_timer += delta
+	if dash_timer > dash_time:
+		inDash = false
+	if dash_timer < dash_time:
+		inDash = true
+		
+	if not inDash:
+		if Input.is_action_pressed("move_left"):
+			if canWalk:
+				movement.x = max(movement.x - ACCELERATION, -MAX_SPEED)
+				dash_direccion = -1
+		elif Input.is_action_pressed("move_right"):
+			if canWalk:
+				movement.x = min(movement.x + ACCELERATION, MAX_SPEED)
+				dash_direccion = 1
+		else:
+			movement.x = 0
+	
+	if Input.is_action_just_pressed("dash"):
+		if canDash:
+			movement.x = DASH * dash_direccion
+			dash_timer = 0
+			canDash = false
+			inDash = true
+	
+	if is_on_floor() and not inDash:
+		canDash = true
+	else:
+		canDash = false
+	
+	movement = move_and_slide()
+
+
 func move(delta):
-	# axis.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	# axis.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	set_animation_type(false)
 
 	axis = get_input_axis()
 	if axis == Vector2.ZERO:
 		if velocity.length() > (FRICTION * delta):
 			apply_friction(delta)
-#	elif Input.is_action_just_pressed("dash"):
-#		dash()
 	else:
 		apply_acceleration(delta)
 	
 	# velocity.y += GRAVITY * delta
 	apply_gravity(delta)
 	get_input(delta)
-	dash()
+	# dash()
 	move_and_slide()
 	
-
-#func move(delta):
-#	axis = get_input_axis()
-#	if axis == Vector2.ZERO:
-#		apply_friction(delta)
-#	else:
-#		apply_acceleration(axis.x, delta)
-#
-#	if is_on_floor():
-#		reset_double_jump()
-#		apply_jump(delta)
-#
-#	if !is_on_floor():
-#		apply_double_jump()
-#
-#	velocity.y += GRAVITY * delta
-#	get_input()
-#	move_and_slide()
-#	apply_clamp(delta)
-			
 func apply_friction(delta):
 	velocity -= velocity.normalized() * (FRICTION * delta)
 	velocity.x = 0;
@@ -125,23 +153,17 @@ func get_input(delta):
 		apply_jump(delta)
 	if !is_on_floor():
 		apply_double_jump()
-#	if right:
-#		velocity.x += MAX_SPEED
-#		print(velocity.x)
-#	if left:
-#		velocity.x -= MAX_SPEED
-#		print(velocity.x)
-		
 
-func dash():
-	if Input.is_action_just_pressed("dash") and canDash:
-		velocity = dashDirection.normalized() * 2000
-		canDash = false
-		dashing = true
-		dashTimer.start()
-		dashing = false
-		canDash = true
-	print("dash")
+#func dash():
+#	if Input.is_action_just_pressed("dash") and canDash:
+#		velocity = dashDirection.normalized() * 2000
+#		canDash = false
+#		dashing = true
+#		dashTimer.start()
+#		# dashTimer.wait_time(0)
+#		dashing = false
+#		canDash = true
+#	print("dash")
 
 func coyote_time():
 	coyoteTimer.start()
@@ -179,4 +201,4 @@ func _on_coyote_timer_timeout():
 	can_jump = false
 
 func _on_dash_timer_timeout():
-	velocity = Vector2(-2000,0)
+	velocity = Vector2(2000,0)

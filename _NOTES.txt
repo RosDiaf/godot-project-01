@@ -29,6 +29,10 @@ https://copyprogramming.com/howto/how-to-check-if-a-timer-is-running-in-godot-a-
 Jump Input Buffering
 http://kpulv.com/106/Jump_Input_Buffering/
 
+Essential Mathematics For Aspiring Game Developers
+https://www.youtube.com/watch?v=DPfxjQ6sqrc
+
+TUTORIAL:
 LEARN KRITA FROM ZERO
 https://www.gdquest.com/tutorial/krita/legacy/krita-from-zero/chapter-1/06-pureref/
 
@@ -37,3 +41,12 @@ https://gmtk.itch.io/platformer-toolkit
 
 LEARN Beginners Guide to Godot
 https://godottutorials.com/courses/godot-basics-series/
+
+CODE
+Celeste shares its movement code for all to peer at
+https://www.rockpapershotgun.com/celeste-movement-code
+
+ARTICLE:
+Godot Dash Function
+https://stackoverflow.com/questions/73991290/godot-dash-function
+https://godotengine.org/qa/39287/kinematicbody2d-how-to-move-it-fast-a-short-distance
