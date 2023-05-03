@@ -42,6 +42,9 @@ https://gmtk.itch.io/platformer-toolkit
 LEARN Beginners Guide to Godot
 https://godottutorials.com/courses/godot-basics-series/
 
+LEAR: Beginner Godot 2D Platformer
+https://www.codingkaiju.com/tutorials/beginner-godot-2d-platformer/
+
 CODE
 Celeste shares its movement code for all to peer at
 https://www.rockpapershotgun.com/celeste-movement-code
@@ -50,3 +53,8 @@ ARTICLE:
 Godot Dash Function
 https://stackoverflow.com/questions/73991290/godot-dash-function
 https://godotengine.org/qa/39287/kinematicbody2d-how-to-move-it-fast-a-short-distance
+
+
+VIDEO: Making a Jump You Can Actually Use In Godot
+https://www.youtube.com/watch?v=IOe1aGY6hXA
+https://gist.github.com/sjvnnings/5f02d2f2fc417f3804e967daa73cccfd

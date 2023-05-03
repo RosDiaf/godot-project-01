@@ -7,8 +7,6 @@ extends CharacterBody2D
 @export var GRAVITY = 3000
 @export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
-@onready var JUMP_RELEASE_FORCE = -170
-@onready var ADDITIONAL_FALL_GRAVITY = 240
 @onready var DOUBLE_JUMP_COUNT = 1
 
 @onready var animatedSprite = $AnimatedSprite2D
@@ -16,15 +14,25 @@ extends CharacterBody2D
 @onready var advJumpBufferTimer: = $JumpBufferTimer
 @onready var coyoteTimer: = $CoyoteTimer
 
+var screensize
+
+var can_jump = true
 var double_jump = 1
 var buffered_jump = false
-var screensize
-var can_jump = true
 
 var can_dash = true
 var dashable = false
 var isdashing = false
 var dash_direction = Vector2(1,0)
+
+
+@export var jump_height : float
+@export var jump_time_to_peak : float
+@export var jump_time_to_descent : float
+@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
+@onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+@onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+
 
 
 func _ready():
@@ -53,6 +61,7 @@ func move(delta):
 	# velocity.y += GRAVITY * delta
 	dash()
 	apply_gravity(delta)
+	# velocity.y += get_gravity() * delta
 	get_input(delta)
 	move_and_slide()
 	
@@ -60,6 +69,11 @@ func apply_friction(delta):
 	velocity -= velocity.normalized() * (FRICTION * delta)
 	velocity.x = 0;
 	# axis.x = lerp(axis.x,0,0.1)
+	
+#	if velocity.length() > 0:
+#		velocity = lerp(velocity, velocity.normalized() * MAX_SPEED, ACCELERATION)
+#	else:
+#		velocity = lerp(velocity, Vector2.ZERO, FRICTION)
 		
 func apply_acceleration(delta):
 	velocity += (axis * ACCELERATION * delta)
@@ -78,10 +92,19 @@ func set_animation_type(jump):
 		animatedSprite.animation = "Jump"
 	elif Input.is_action_just_pressed("ui_select") and double_jump > 0:
 		animatedSprite.animation = "Double_Jump"
-	elif Input.is_action_just_pressed("ui_select") and axis.x > 0 and double_jump > 0:  # This condition is never verified
-		print(axis.x)
-		animatedSprite.animation = "Double_Jump"
+		
+#	elif Input.is_action_just_pressed("ui_select") and velocity > Vector2(1,0):  # This condition is never verified
+#		print(axis.x)
+#		print("Double Jump Ahead!")
+#		animatedSprite.animation = "Double_Jump"
+
+#	if area.is_in_group("jump_pad"):
+#		velocity.y = 30
+#		velocity = transform.basis.z.normalized()*speed
 	
+func get_gravity() -> float:
+	return jump_gravity if velocity.y < 0.0 else fall_gravity
+
 func apply_gravity(delta):
 	velocity.y += GRAVITY * delta
 	velocity.y = min(velocity.y, LANDING_ACCELERATION)
@@ -124,6 +147,7 @@ func coyote_time():
 
 func apply_jump(delta):
 	velocity.y = JUMP_FORCE
+	# velocity.y = jump_velocity
 	advJumpBufferTimer.start()	
 	buffered_jump = true
 	can_jump = false
