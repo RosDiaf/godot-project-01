@@ -23,7 +23,6 @@ Events="*res://Events.gd"
 
 window/size/viewport_width=2700
 window/size/viewport_height=980
-window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/stretch/scale=1.2

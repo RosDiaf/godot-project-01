@@ -15,28 +15,16 @@ extends CharacterBody2D
 @onready var remoteTransform2D: = $RemoteTransform2D
 @onready var advJumpBufferTimer: = $JumpBufferTimer
 @onready var coyoteTimer: = $CoyoteTimer
-@onready var dashTimer: = $DashTimer
 
 var double_jump = 1
 var buffered_jump = false
 var screensize
 var can_jump = true
 
-
-#var dashDirection = Vector2.ZERO
-#var canDash = true
-#var dashing = false
-
-var DASH = 800
-var DASH_DISTANCE = 100.0 #must be a float for the division! 
-var dash_direccion = 1
-var dash_time = DASH_DISTANCE/DASH
-var dash_timer = dash_time
-var canWalk = true
-var canDash = true
-var inDash = false
-const UP = Vector2(0,-1)
-var movement = Vector2()
+var can_dash = true
+var dashable = false
+var isdashing = false
+var dash_direction = Vector2(1,0)
 
 
 func _ready():
@@ -45,7 +33,6 @@ func _ready():
 
 func _physics_process(delta):
 	move(delta)
-	# move_b(delta)
 
 func get_input_axis():
 	axis.x = int(Input.is_action_pressed("move_right")) - int(Input.is_action_pressed("move_left"))
@@ -54,48 +41,8 @@ func get_input_axis():
 	set_animation_type(false)
 	return axis.normalized()
 
-
-func move_b(delta):
-	set_animation_type(false)
-	axis = get_input_axis()
-	
-	if inDash:
-		dash_timer += delta
-	if dash_timer > dash_time:
-		inDash = false
-	if dash_timer < dash_time:
-		inDash = true
-		
-	if not inDash:
-		if Input.is_action_pressed("move_left"):
-			if canWalk:
-				movement.x = max(movement.x - ACCELERATION, -MAX_SPEED)
-				dash_direccion = -1
-		elif Input.is_action_pressed("move_right"):
-			if canWalk:
-				movement.x = min(movement.x + ACCELERATION, MAX_SPEED)
-				dash_direccion = 1
-		else:
-			movement.x = 0
-	
-	if Input.is_action_just_pressed("dash"):
-		if canDash:
-			movement.x = DASH * dash_direccion
-			dash_timer = 0
-			canDash = false
-			inDash = true
-	
-	if is_on_floor() and not inDash:
-		canDash = true
-	else:
-		canDash = false
-	
-	movement = move_and_slide()
-
-
 func move(delta):
 	set_animation_type(false)
-
 	axis = get_input_axis()
 	if axis == Vector2.ZERO:
 		if velocity.length() > (FRICTION * delta):
@@ -104,9 +51,9 @@ func move(delta):
 		apply_acceleration(delta)
 	
 	# velocity.y += GRAVITY * delta
+	dash()
 	apply_gravity(delta)
 	get_input(delta)
-	# dash()
 	move_and_slide()
 	
 func apply_friction(delta):
@@ -140,8 +87,6 @@ func apply_gravity(delta):
 	velocity.y = min(velocity.y, LANDING_ACCELERATION)
 
 func get_input(delta):
-	var right = Input.is_action_pressed('move_right')
-	var left = Input.is_action_pressed('move_left')
 	var jump = Input.is_action_just_pressed('ui_select')
 	
 	if is_on_floor():
@@ -154,16 +99,25 @@ func get_input(delta):
 	if !is_on_floor():
 		apply_double_jump()
 
-#func dash():
-#	if Input.is_action_just_pressed("dash") and canDash:
-#		velocity = dashDirection.normalized() * 2000
-#		canDash = false
-#		dashing = true
-#		dashTimer.start()
-#		# dashTimer.wait_time(0)
-#		dashing = false
-#		canDash = true
-#	print("dash")
+
+func dash():
+	if is_on_floor():
+		dashable = true
+		
+	if Input.is_action_pressed("move_left"):
+		dash_direction = Vector2(-1,0)
+
+	if Input.is_action_pressed("move_right"):
+		dash_direction = Vector2(1,0)
+		
+	if can_dash and Input.is_action_pressed("dash") and dashable and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")):
+		can_dash = false;
+		velocity = dash_direction.normalized() * 10000
+		dashable = false
+		isdashing = true
+		await get_tree().create_timer(0.2).timeout
+		isdashing = false
+		can_dash = true
 
 func coyote_time():
 	coyoteTimer.start()
@@ -199,6 +153,3 @@ func _on_adv_jump_buffer_timer_timeout():
 	
 func _on_coyote_timer_timeout():
 	can_jump = false
-
-func _on_dash_timer_timeout():
-	velocity = Vector2(2000,0)
