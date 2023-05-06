@@ -208,6 +208,9 @@ color_ramp = SubResource("GradientTexture1D_cjkaj")
 
 [node name="Adventurer" type="CharacterBody2D"]
 script = ExtResource("2_llhj0")
+jump_height = 100.0
+jump_time_to_peak = 0.3
+jump_time_to_descent = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
@@ -240,6 +243,10 @@ one_shot = true
 [node name="CoyoteTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="screen_exited" from="Sprite2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_adv_jump_buffer_timer_timeout"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

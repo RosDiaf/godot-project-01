@@ -8,14 +8,22 @@ extends CharacterBody2D
 @export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
 @onready var DOUBLE_JUMP_COUNT = 1
+@export_range(0.0, 1.0) var RANGE_FRICTION = 0.1
+@export_range(0.0, 1.0) var RANGE_ACCELERATION = 0.25
 
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var remoteTransform2D: = $RemoteTransform2D
 @onready var advJumpBufferTimer: = $JumpBufferTimer
 @onready var coyoteTimer: = $CoyoteTimer
 
-var screensize
+@export var jump_height : float # 100
+@export var jump_time_to_peak : float # 0.3
+@export var jump_time_to_descent : float # 0.3
+@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
+@onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+@onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
+var screensize
 var can_jump = true
 var double_jump = 1
 var buffered_jump = false
@@ -24,16 +32,6 @@ var can_dash = true
 var dashable = false
 var isdashing = false
 var dash_direction = Vector2(1,0)
-
-
-@export var jump_height : float
-@export var jump_time_to_peak : float
-@export var jump_time_to_descent : float
-@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
-@onready var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
-@onready var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
-
-
 
 func _ready():
 	animatedSprite.animation = "Idle"
@@ -58,22 +56,17 @@ func move(delta):
 	else:
 		apply_acceleration(delta)
 	
-	# velocity.y += GRAVITY * delta
 	dash()
-	apply_gravity(delta)
-	# velocity.y += get_gravity() * delta
+	velocity.y += get_gravity() * delta
 	get_input(delta)
 	move_and_slide()
 	
 func apply_friction(delta):
-	velocity -= velocity.normalized() * (FRICTION * delta)
-	velocity.x = 0;
-	# axis.x = lerp(axis.x,0,0.1)
-	
-#	if velocity.length() > 0:
-#		velocity = lerp(velocity, velocity.normalized() * MAX_SPEED, ACCELERATION)
-#	else:
-#		velocity = lerp(velocity, Vector2.ZERO, FRICTION)
+	var dir = Input.get_axis("move_left","move_right")
+	if dir != 0:
+		velocity.x = lerp(velocity.x, dir * MAX_SPEED, RANGE_ACCELERATION)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, RANGE_FRICTION)
 		
 func apply_acceleration(delta):
 	velocity += (axis * ACCELERATION * delta)
@@ -104,10 +97,6 @@ func set_animation_type(jump):
 	
 func get_gravity() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
-
-func apply_gravity(delta):
-	velocity.y += GRAVITY * delta
-	velocity.y = min(velocity.y, LANDING_ACCELERATION)
 
 func get_input(delta):
 	var jump = Input.is_action_just_pressed('ui_select')
