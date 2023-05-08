@@ -8,13 +8,16 @@ extends CharacterBody2D
 @export var LANDING_ACCELERATION = 1000
 @onready var JUMP_FORCE = -1000
 @onready var DOUBLE_JUMP_COUNT = 1
-@export_range(0.0, 1.0) var RANGE_FRICTION = 0.1
+@export_range(0.0, 1.0) var RANGE_FRICTION = 0.5
 @export_range(0.0, 1.0) var RANGE_ACCELERATION = 0.25
 
 @onready var animatedSprite = $AnimatedSprite2D
 @onready var remoteTransform2D: = $RemoteTransform2D
 @onready var advJumpBufferTimer: = $JumpBufferTimer
 @onready var coyoteTimer: = $CoyoteTimer
+@onready var ghostTimer: = $GhostTimer
+@onready var particles: = $GPUParticles2D2
+@onready var particlesLanding: = $GPUParticles2D3
 
 @export var jump_height : float # 100
 @export var jump_time_to_peak : float # 0.3
@@ -76,24 +79,22 @@ func set_animation_type(jump):
 	if axis.x > 0:
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = false
+		particles.emitting = true
 	elif axis.x < 0:
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = true
+		particles.emitting = true
 	elif is_on_floor() and not Input.is_action_just_pressed("ui_select"):
 		animatedSprite.animation = "Idle"
+		particles.emitting = false
+		particlesLanding.emitting = true
 	elif is_on_floor() and Input.is_action_just_pressed("ui_select"):
 		animatedSprite.animation = "Jump"
+		particles.emitting = true
+		particlesLanding.emitting = false
 	elif Input.is_action_just_pressed("ui_select") and double_jump > 0:
 		animatedSprite.animation = "Double_Jump"
-		
-#	elif Input.is_action_just_pressed("ui_select") and velocity > Vector2(1,0):  # This condition is never verified
-#		print(axis.x)
-#		print("Double Jump Ahead!")
-#		animatedSprite.animation = "Double_Jump"
 
-#	if area.is_in_group("jump_pad"):
-#		velocity.y = 30
-#		velocity = transform.basis.z.normalized()*speed
 	
 func get_gravity() -> float:
 	return jump_gravity if velocity.y < 0.0 else fall_gravity
@@ -136,7 +137,6 @@ func coyote_time():
 
 func apply_jump(delta):
 	velocity.y = JUMP_FORCE
-	# velocity.y = jump_velocity
 	advJumpBufferTimer.start()	
 	buffered_jump = true
 	can_jump = false
@@ -166,3 +166,13 @@ func _on_adv_jump_buffer_timer_timeout():
 	
 func _on_coyote_timer_timeout():
 	can_jump = false
+
+func _on_ghost_timer_timeout():
+	pass
+#	if velocity.x != 0:
+#		var this_ghost = preload("res://Actors/Adventurer.tscn").instantiate();
+#		get_parent().add_child(this_ghost);
+#		this_ghost.position = position
+		# print(this_ghost.texture)
+		# this_ghost.texture = $AnimatedSprite2D.frame.get_frame($AnimatedSprite2D.animation, $AnimatedSprite2D.frame)
+		# this_ghost.flip_h = $AnimatedSprite2D.flip_h

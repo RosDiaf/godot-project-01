@@ -10,7 +10,7 @@ size = Vector2(10, 18)
 offsets = PackedFloat32Array(0, 0.997429)
 colors = PackedColorArray(1, 1, 1, 0.392157, 1, 1, 1, 0.0588235)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vfovc"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pbcm8"]
 gradient = SubResource("Gradient_4sa6v")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2mmyx"]
@@ -27,7 +27,7 @@ orbit_velocity_max = 0.0
 scale_min = 4.0
 scale_max = 4.0
 color = Color(0, 0, 0, 1)
-color_ramp = SubResource("GradientTexture1D_vfovc")
+color_ramp = SubResource("GradientTexture1D_pbcm8")
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1

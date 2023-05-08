@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://kqw2yyy0oe1y"]
+[gd_scene load_steps=36 format=3 uid="uid://kqw2yyy0oe1y"]
 
 [ext_resource type="Texture2D" uid="uid://ddqiicr3plcuj" path="res://assets/level01/adventurer-v1.5-Sheet.png" id="1_t2kmx"]
 [ext_resource type="Script" path="res://Actors/Adventurer.gd" id="2_llhj0"]
@@ -206,6 +206,47 @@ scale_max = 4.0
 color = Color(0, 0, 0, 1)
 color_ramp = SubResource("GradientTexture1D_cjkaj")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pemt0"]
+
+[sub_resource type="Gradient" id="Gradient_7x8eg"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8my1e"]
+gradient = SubResource("Gradient_7x8eg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h5k34"]
+emission_shape = 3
+emission_box_extents = Vector3(9, 2, 0)
+particle_flag_disable_z = true
+gravity = Vector3(0, 98, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_8my1e")
+
+[sub_resource type="Gradient" id="Gradient_owr3m"]
+offsets = PackedFloat32Array(0, 0.997429)
+colors = PackedColorArray(1, 1, 1, 0.392157, 1, 1, 1, 0.0588235)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vfovc"]
+gradient = SubResource("Gradient_owr3m")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y1tss"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(9, 2, 0)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 2, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 4.0
+color_ramp = SubResource("GradientTexture1D_vfovc")
+
 [node name="Adventurer" type="CharacterBody2D"]
 script = ExtResource("2_llhj0")
 jump_height = 100.0
@@ -246,7 +287,27 @@ one_shot = true
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="GhostTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_pemt0")
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_h5k34")
+randomness = 1.0
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_y1tss")
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+
 [connection signal="screen_exited" from="Sprite2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_adv_jump_buffer_timer_timeout"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="GhostTimer" to="." method="_on_ghost_timer_timeout"]

@@ -10,6 +10,8 @@ https://docs.godotengine.org/en/stable/tutorials/2d/2d_sprite_animation.html
 Physics introduction
 https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html
 
+2D particle systems
+https://docs.godotengine.org/en/stable/tutorials/2d/particle_systems_2d.html
 
 ASSETS
 Cartoon explosion animation frames
