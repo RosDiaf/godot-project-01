@@ -18,6 +18,8 @@ extends CharacterBody2D
 @onready var ghostTimer: = $GhostTimer
 @onready var particles: = $GPUParticles2D2
 @onready var particlesLanding: = $GPUParticles2D3
+@onready var particlesDashig: = $GPUParticles2D_Dash
+
 
 @export var jump_height : float # 100
 @export var jump_time_to_peak : float # 0.3
@@ -80,10 +82,11 @@ func set_animation_type(jump):
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = false
 		particles.emitting = true
+		particlesDashig.emitting = false
 	elif axis.x < 0:
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = true
-		particles.emitting = true
+		particles.emitting = true	
 	elif is_on_floor() and not Input.is_action_just_pressed("ui_select"):
 		animatedSprite.animation = "Idle"
 		particles.emitting = false
@@ -128,6 +131,7 @@ func dash():
 		velocity = dash_direction.normalized() * 10000
 		dashable = false
 		isdashing = true
+		particlesDashig.emitting = true
 		await get_tree().create_timer(0.2).timeout
 		isdashing = false
 		can_dash = true

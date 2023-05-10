@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://kqw2yyy0oe1y"]
+[gd_scene load_steps=40 format=3 uid="uid://kqw2yyy0oe1y"]
 
 [ext_resource type="Texture2D" uid="uid://ddqiicr3plcuj" path="res://assets/level01/adventurer-v1.5-Sheet.png" id="1_t2kmx"]
 [ext_resource type="Script" path="res://Actors/Adventurer.gd" id="2_llhj0"]
@@ -247,6 +247,35 @@ scale_min = 4.0
 scale_max = 4.0
 color_ramp = SubResource("GradientTexture1D_vfovc")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yn2l1"]
+
+[sub_resource type="Gradient" id="Gradient_om2li"]
+offsets = PackedFloat32Array(0, 0.137778, 0.297778)
+colors = PackedColorArray(0.764706, 0.545098, 0.415686, 1, 0.498039, 0.360784, 0.521569, 0.992157, 0.620335, 0.288529, 0.43904, 0.992157)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e2p8d"]
+gradient = SubResource("Gradient_om2li")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_px1er"]
+emission_shape = 4
+emission_point_count = 1
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 7.71
+flatness = 0.2
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 64.29
+initial_velocity_max = 385.71
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_max = 17.14
+scale_min = 1.2
+scale_max = 1.2
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_e2p8d")
+
 [node name="Adventurer" type="CharacterBody2D"]
 script = ExtResource("2_llhj0")
 jump_height = 100.0
@@ -305,6 +334,12 @@ process_material = SubResource("ParticleProcessMaterial_y1tss")
 one_shot = true
 speed_scale = 2.0
 explosiveness = 1.0
+
+[node name="GPUParticles2D_Dash" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_yn2l1")
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_px1er")
 
 [connection signal="screen_exited" from="Sprite2D/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
 [connection signal="timeout" from="JumpBufferTimer" to="." method="_on_adv_jump_buffer_timer_timeout"]
