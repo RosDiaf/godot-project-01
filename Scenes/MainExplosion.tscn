@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c6tjx7vfapi5t" path="res://icon.svg" id="1_j300m"]
 [ext_resource type="Script" path="res://Scenes/MainExplosion.gd" id="2_m7aa8"]
-[ext_resource type="PackedScene" uid="uid://yse76slu6tq5" path="res://Scenes/MainExplosionParticles.tscn" id="3_1eg4e"]
+[ext_resource type="PackedScene" uid="uid://bnflea73ft6ks" path="res://Scenes/MainExplosionParticles.tscn" id="3_1eg4e"]
 
 [sub_resource type="Environment" id="Environment_4ron1"]
 background_mode = 3
@@ -14,6 +14,7 @@ glow_levels/4 = 1.0
 glow_levels/6 = 1.0
 glow_levels/7 = 1.0
 glow_blend_mode = 1
+glow_hdr_threshold = 0.0
 
 [node name="MainExplosion" type="Node2D"]
 
