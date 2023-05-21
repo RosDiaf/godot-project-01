@@ -122,20 +122,21 @@ func dash():
 		
 	if Input.is_action_pressed("move_left"):
 		dash_direction = Vector2(-1,0)
+		particlesDashig.emitting = true
 
 	if Input.is_action_pressed("move_right"):
 		dash_direction = Vector2(1,0)
+		particlesDashig.emitting = true
 		
 	if can_dash and Input.is_action_pressed("dash") and dashable and (Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right")):
 		can_dash = false;
 		velocity = dash_direction.normalized() * 10000
 		dashable = false
 		isdashing = true
-		particlesDashig.emitting = true
 		await get_tree().create_timer(0.2).timeout
 		isdashing = false
 		can_dash = true
-
+		
 func coyote_time():
 	coyoteTimer.start()
 

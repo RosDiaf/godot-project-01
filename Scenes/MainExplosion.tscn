@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://chlfudil41iih"]
+
+[ext_resource type="Texture2D" uid="uid://c6tjx7vfapi5t" path="res://icon.svg" id="1_j300m"]
+[ext_resource type="Script" path="res://Scenes/MainExplosion.gd" id="2_m7aa8"]
+[ext_resource type="PackedScene" uid="uid://yse76slu6tq5" path="res://Scenes/MainExplosionParticles.tscn" id="3_1eg4e"]
+
+[sub_resource type="Environment" id="Environment_4ron1"]
+background_mode = 3
+tonemap_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_levels/6 = 1.0
+glow_levels/7 = 1.0
+glow_blend_mode = 1
+
+[node name="MainExplosion" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -4675.0
+offset_top = -7312.0
+offset_right = 10953.0
+offset_bottom = 9718.0
+color = Color(0, 0, 0, 1)
+
+[node name="Explosion" type="Sprite2D" parent="."]
+self_modulate = Color(1.75, 0, 0, 1)
+position = Vector2(517, 436)
+texture = ExtResource("1_j300m")
+script = ExtResource("2_m7aa8")
+deathParticle = ExtResource("3_1eg4e")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4ron1")
