@@ -10,6 +10,15 @@ func _ready():
 	adventurer.connect_camera(camera)
 	adventurer_spawn_location = adventurer.global_position
 	
+#	var rigidBody2d_a = $RigidBody2D
+#	rigidBody2d_a.position = Vector2(2100,638)
+#	add_child(rigidBody2d_a)
+#
+#	var rigidBody2d_b = $RigidBody2D
+#	rigidBody2d_b.position = Vector2(2200,638)
+#	add_child(rigidBody2d_b)
+	
+	
 #	Events.connect("player_died", _on_player_died)
 #	Events.connect("hit_checkpoint", _on_hit_checkpoint)
 	

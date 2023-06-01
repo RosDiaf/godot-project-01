@@ -70,6 +70,8 @@ func apply_friction(delta):
 	var dir = Input.get_axis("move_left","move_right")
 	if dir != 0:
 		velocity.x = lerp(velocity.x, dir * MAX_SPEED, RANGE_ACCELERATION)
+	elif dir == 0 and !is_on_floor():
+		velocity.x = lerp(velocity.x, 0.0, RANGE_FRICTION/2)
 	else:
 		velocity.x = lerp(velocity.x, 0.0, RANGE_FRICTION)
 		
@@ -119,6 +121,7 @@ func get_input(delta):
 func dash():
 	if is_on_floor():
 		dashable = true
+		particlesDashig.emitting = false
 		
 	if Input.is_action_pressed("move_left"):
 		dash_direction = Vector2(-1,0)
@@ -181,3 +184,4 @@ func _on_ghost_timer_timeout():
 		# print(this_ghost.texture)
 		# this_ghost.texture = $AnimatedSprite2D.frame.get_frame($AnimatedSprite2D.animation, $AnimatedSprite2D.frame)
 		# this_ghost.flip_h = $AnimatedSprite2D.flip_h
+

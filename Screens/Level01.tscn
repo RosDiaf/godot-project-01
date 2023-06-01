@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://lq0iph5j1bf3"]
+[gd_scene load_steps=34 format=3 uid="uid://lq0iph5j1bf3"]
 
 [ext_resource type="Script" path="res://Screens/CloudLayer.gd" id="1_11xll"]
 [ext_resource type="Script" path="res://Screens/Level01.gd" id="1_vfaw4"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpxvck0py7yuk" path="res://assets/level01/map/groundTilemap_64px.png" id="6_bcntk"]
 [ext_resource type="Texture2D" uid="uid://cvkhkre62t1g5" path="res://assets/level01/parallax/parallax-04-B.png" id="8_2trcc"]
 [ext_resource type="PackedScene" uid="uid://kqw2yyy0oe1y" path="res://Actors/Adventurer.tscn" id="8_05k8p"]
+[ext_resource type="PackedScene" uid="uid://c5t3ynl7a37si" path="res://RigidBody/RigidBody2d.tscn" id="9_m8li5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v0opr"]
 texture = ExtResource("6_bcntk")
@@ -738,6 +739,11 @@ sources/20 = SubResource("TileSetAtlasSource_1dj0n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wisba"]
 size = Vector2(15, 27)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rsjcc"]
+friction = 0.3
+rough = true
+bounce = 0.4
+
 [node name="ParallaxScrollingScene" type="Node2D"]
 script = ExtResource("1_vfaw4")
 
@@ -815,5 +821,20 @@ scale = Vector2(1.2, 1.2)
 [node name="CollisionShape2D" parent="Adventurer" index="1"]
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_wisba")
+
+[node name="RigidBody2D" parent="." instance=ExtResource("9_m8li5")]
+position = Vector2(1941, 538)
+physics_material_override = SubResource("PhysicsMaterial_rsjcc")
+linear_velocity = Vector2(-650, 0)
+
+[node name="RigidBody2D2" parent="." instance=ExtResource("9_m8li5")]
+position = Vector2(2100, 638)
+physics_material_override = SubResource("PhysicsMaterial_rsjcc")
+linear_velocity = Vector2(-650, 0)
+
+[node name="RigidBody2D3" parent="." instance=ExtResource("9_m8li5")]
+position = Vector2(2200, 638)
+physics_material_override = SubResource("PhysicsMaterial_rsjcc")
+constant_force = Vector2(2, 0)
 
 [editable path="Adventurer"]
