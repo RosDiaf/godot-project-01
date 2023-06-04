@@ -171,7 +171,7 @@ animations = [{
 
 [sub_resource type="GDScript" id="GDScript_gqmth"]
 script/source = "extends AnimatedSprite2D
-class_name Adventurer
+class_name PlayerAdventurer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

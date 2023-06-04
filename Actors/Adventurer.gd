@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Adventurer
 
 @export var axis = Vector2.ZERO
 @export var MAX_SPEED = 550
@@ -37,6 +38,8 @@ var can_dash = true
 var dashable = false
 var isdashing = false
 var dash_direction = Vector2(1,0)
+
+@onready var adventurer = $Adventurer
 
 func _ready():
 	animatedSprite.animation = "Idle"
@@ -80,12 +83,12 @@ func apply_acceleration(delta):
 	velocity = velocity.limit_length(MAX_SPEED)
 
 func set_animation_type(jump):
-	if axis.x > 0:
+	if axis.x > 0 and axis.y == 0:
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = false
 		particles.emitting = true
 		particlesDashig.emitting = false
-	elif axis.x < 0:
+	elif axis.x < 0 and axis.y == 0:
 		animatedSprite.animation = "Run"
 		animatedSprite.flip_h = true
 		particles.emitting = true	
@@ -97,7 +100,7 @@ func set_animation_type(jump):
 		animatedSprite.animation = "Jump"
 		particles.emitting = true
 		particlesLanding.emitting = false
-	elif Input.is_action_just_pressed("ui_select") and double_jump > 0:
+	elif !is_on_floor() and Input.is_action_just_pressed("ui_select") and double_jump > 0:
 		animatedSprite.animation = "Double_Jump"
 
 	
@@ -184,4 +187,8 @@ func _on_ghost_timer_timeout():
 		# print(this_ghost.texture)
 		# this_ghost.texture = $AnimatedSprite2D.frame.get_frame($AnimatedSprite2D.animation, $AnimatedSprite2D.frame)
 		# this_ghost.flip_h = $AnimatedSprite2D.flip_h
-
+		
+func adventurer_died():
+	queue_free()
+	Events.emit_signal("adventurer_died")
+		

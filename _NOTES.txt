@@ -60,3 +60,7 @@ https://godotengine.org/qa/39287/kinematicbody2d-how-to-move-it-fast-a-short-dis
 VIDEO: Making a Jump You Can Actually Use In Godot
 https://www.youtube.com/watch?v=IOe1aGY6hXA
 https://gist.github.com/sjvnnings/5f02d2f2fc417f3804e967daa73cccfd
+
+how do I detect collision between a kinematicbody 2d(player) node and a rigidbody2d node(mob) in Godot
+https://stackoverflow.com/questions/69728827/how-do-i-detect-collision-between-a-kinematicbody-2dplayer-node-and-a-rigidbod
+
