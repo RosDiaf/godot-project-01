@@ -56,6 +56,8 @@ Godot Dash Function
 https://stackoverflow.com/questions/73991290/godot-dash-function
 https://godotengine.org/qa/39287/kinematicbody2d-how-to-move-it-fast-a-short-distance
 
+GODOT NODES 101: VISIBILITYNOTIFIER AND VISIBILITYENABLER 2D
+https://www.gdquest.com/tutorial/godot/2d/visibility-notifier-2d/#:~:text=In%20Godot%2C%20we%20can%20use%20visibility%20nodes%20to,node%20when%20it%20enters%20or%20leaves%20the%20view.
 
 VIDEO: Making a Jump You Can Actually Use In Godot
 https://www.youtube.com/watch?v=IOe1aGY6hXA
