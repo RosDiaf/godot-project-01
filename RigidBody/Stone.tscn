@@ -23,7 +23,7 @@ func _on_visible_on_screen_enabler_2d_screen_entered():
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2c3j1"]
-size = Vector2(26, 26)
+size = Vector2(28, 43)
 
 [node name="Stone" type="RigidBody2D"]
 position = Vector2(955, 199)

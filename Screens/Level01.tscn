@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://ckqmln8be1211"]
+[gd_scene load_steps=38 format=3 uid="uid://ckqmln8be1211"]
 
 [ext_resource type="Script" path="res://Screens/CloudLayer.gd" id="1_11xll"]
 [ext_resource type="Script" path="res://Screens/Level01.gd" id="1_vfaw4"]
@@ -9,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://cvkhkre62t1g5" path="res://assets/level01/parallax/parallax-04-B.png" id="8_2trcc"]
 [ext_resource type="PackedScene" uid="uid://kqw2yyy0oe1y" path="res://Actors/Adventurer.tscn" id="8_05k8p"]
 [ext_resource type="PackedScene" uid="uid://c5t3ynl7a37si" path="res://RigidBody/Stone.tscn" id="9_67wlq"]
+[ext_resource type="Texture2D" uid="uid://cu0j2ohkgcjti" path="res://assets/level01/stones-png/Stone_big_001.png" id="10_y6qdk"]
+[ext_resource type="Texture2D" uid="uid://df7nfxqxc4iac" path="res://assets/level01/stones-png/Stone_big_004.png" id="11_4nm5y"]
+[ext_resource type="Texture2D" uid="uid://bdv6rwpo7y01g" path="res://assets/level01/stones-png/Stone_big_008.png" id="12_q7mb0"]
+[ext_resource type="Texture2D" uid="uid://drv4nsl5nqjwt" path="res://assets/level01/stones-png/Stone_big_010.png" id="13_f2ktk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v0opr"]
 texture = ExtResource("6_bcntk")
@@ -739,6 +743,10 @@ sources/20 = SubResource("TileSetAtlasSource_1dj0n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wisba"]
 size = Vector2(15, 27)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cbonp"]
+radius = 9.0
+height = 42.0
+
 [node name="ParallaxScrollingScene" type="Node2D"]
 script = ExtResource("1_vfaw4")
 
@@ -820,16 +828,101 @@ shape = SubResource("RectangleShape2D_wisba")
 [node name="Stone" parent="." instance=ExtResource("9_67wlq")]
 position = Vector2(2839, 111)
 
+[node name="Sprite2D" parent="Stone" index="0"]
+texture = ExtResource("10_y6qdk")
+
+[node name="CollisionShape2D" parent="Stone" index="1"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_cbonp")
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone" index="2"]
+position = Vector2(0.499936, -1)
+scale = Vector2(0.949994, 2.1)
+
 [node name="Stone2" parent="." instance=ExtResource("9_67wlq")]
 position = Vector2(2965, 231)
+
+[node name="Sprite2D" parent="Stone2" index="0"]
+position = Vector2(5.00008, -0.499997)
+scale = Vector2(0.121875, 0.10625)
+texture = ExtResource("11_4nm5y")
+
+[node name="CollisionShape2D" parent="Stone2" index="1"]
+position = Vector2(5, -1)
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone2" index="2"]
+position = Vector2(4.99982, -0.999993)
+scale = Vector2(0.799999, 1.1)
 
 [node name="Stone3" parent="." instance=ExtResource("9_67wlq")]
 position = Vector2(2994, 73)
 
+[node name="Sprite2D" parent="Stone3" index="0"]
+position = Vector2(-1.50002, -4.5)
+scale = Vector2(0.167187, 0.13125)
+texture = ExtResource("10_y6qdk")
+
+[node name="CollisionShape2D" parent="Stone3" index="1"]
+position = Vector2(-1, -4.5)
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone3" index="2"]
+position = Vector2(-1.00009, -4.5)
+scale = Vector2(0.800013, 1.35)
+
 [node name="Stone4" parent="." instance=ExtResource("9_67wlq")]
 position = Vector2(3172, 332)
+
+[node name="Sprite2D" parent="Stone4" index="0"]
+texture = ExtResource("10_y6qdk")
+
+[node name="CollisionShape2D" parent="Stone4" index="1"]
+position = Vector2(0.5, 0)
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone4" index="2"]
+position = Vector2(0, 2.38419e-06)
+scale = Vector2(1, 2.1)
 
 [node name="Stone5" parent="." instance=ExtResource("9_67wlq")]
 position = Vector2(2862, 368)
 
+[node name="Sprite2D" parent="Stone5" index="0"]
+texture = ExtResource("10_y6qdk")
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone5" index="2"]
+position = Vector2(0, -3.8147e-06)
+scale = Vector2(1, 2)
+
+[node name="Stone6" parent="." instance=ExtResource("9_67wlq")]
+position = Vector2(3294, 170)
+
+[node name="Sprite2D" parent="Stone6" index="0"]
+texture = ExtResource("12_q7mb0")
+
+[node name="CollisionShape2D" parent="Stone6" index="1"]
+position = Vector2(-0.5, -0.5)
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone6" index="2"]
+position = Vector2(-0.500073, -0.500001)
+scale = Vector2(0.749993, 1.95)
+
+[node name="Stone7" parent="." instance=ExtResource("9_67wlq")]
+position = Vector2(3150, 156)
+
+[node name="Sprite2D" parent="Stone7" index="0"]
+texture = ExtResource("13_f2ktk")
+
+[node name="CollisionShape2D" parent="Stone7" index="1"]
+position = Vector2(0, -0.5)
+
+[node name="VisibleOnScreenEnabler2D" parent="Stone7" index="2"]
+position = Vector2(-6.89924e-05, -0.500003)
+scale = Vector2(1.40001, 2.15)
+
 [editable path="Adventurer"]
+[editable path="Stone"]
+[editable path="Stone2"]
+[editable path="Stone3"]
+[editable path="Stone4"]
+[editable path="Stone5"]
+[editable path="Stone6"]
+[editable path="Stone7"]
